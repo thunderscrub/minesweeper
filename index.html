@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper - Topias Kinnunen</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+    <script>
+        function setEmojiFavicon(emoji) {
+            const canvas = document.createElement("canvas");
+            canvas.width = 64;
+            canvas.height = 64;
+            const ctx = canvas.getContext("2d");
+            ctx.font = "48px sans-serif";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(emoji, canvas.width / 2, canvas.height / 2);
+            
+            const favicon = document.createElement("link");
+            favicon.rel = "icon";
+            favicon.href = canvas.toDataURL();
+            
+            const existingFavicon = document.querySelector("link[rel='icon']");
+            if (existingFavicon) {
+                document.head.removeChild(existingFavicon);
+            }
+            
+            document.head.appendChild(favicon);
+        }
+    
+        setEmojiFavicon("🚩");
+    </script>
+</body>
+</html>
