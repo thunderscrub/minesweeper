@@ -1,6 +1,6 @@
 # Minesweeper
 
-Minesweeper with mouse and keyboard interfaces.
+Minesweeper with mouse+keyboard input and graphics+audio output.
 
 ## How to run
 
