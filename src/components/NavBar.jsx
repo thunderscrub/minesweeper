@@ -1,6 +1,6 @@
+import Sound from "./Sound"
 
-
-const NavBar = ({showSettings, showHelp}) => {
+const NavBar = ({showSettings, showHelp, isSound, toggleSound}) => {
 
     return(
         <div style={{
@@ -14,10 +14,11 @@ const NavBar = ({showSettings, showHelp}) => {
             "fontSize":"35px",
             "cursor":"pointer",
             "userSelect": "none"}} onClick={()=>{showSettings()}}>🔄</li>
-            {<li style={{"float": "left",
+            <li style={{"float": "left",
                 "fontSize":"35px",
                 "cursor":"pointer",
-                "userSelect": "none"}} onClick={()=>{showHelp()}}>❓</li>}        
+                "userSelect": "none"}} onClick={()=>{showHelp()}}>❓</li>    
+            <Sound isSound={isSound} toggleSound={toggleSound} />    
         </ul>
         </div>
     )

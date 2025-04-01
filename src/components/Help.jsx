@@ -40,6 +40,7 @@ function Help({onClose}) {
                     <li>Use space key to flag a tile.</li>
                     <li>Use H key to open/close this help menu.</li>
                     <li>Use R key to restart and open the settings menu.</li>
+                    <li>Use M key to toggle sound on or off.</li>
                     <li>Use left click to open tiles and right click to flag tiles.</li>
                     <li>Time starts ticking after the first tile is opened.</li>
                 </ul>

@@ -18,6 +18,7 @@ function App() {
   const [bannerVisible, setBannerVisible] = useState(false)
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
+  const [isSound, setIsSound] = useState(true)
 
   useEffect(() => {
     let timer;
@@ -69,14 +70,18 @@ function App() {
   const toggleHelp = () => {
     setShowHelp(!showHelp)
   }
+
+  const toggleSound = () => {
+    setIsSound(!isSound)
+  }
   
   return(
     <>
-    <NavBar showSettings={openSettings} showHelp={toggleHelp}/>
+    <NavBar showSettings={openSettings} showHelp={toggleHelp} isSound={isSound} toggleSound={toggleSound}/>
     {showHelp && <Help onClose={toggleHelp}/>}
     {!showSettings && <Timer time={time}/>}
     {showSettings && <Settings resultCallback={resultCallback} setShowSettings={setShowSettings} />}
-    <GameController gridSize={gridsize} useChance={useChance} bombPercentage={bombPercentage} bombCount={bombCount} gameStatus={gameStatus} statusCallback={statusCallback} timerStartPause={handleStartPause} isRunning={isRunning} openSettings={openSettings} toggleHelp={toggleHelp}/>
+    <GameController gridSize={gridsize} useChance={useChance} bombPercentage={bombPercentage} bombCount={bombCount} gameStatus={gameStatus} statusCallback={statusCallback} timerStartPause={handleStartPause} isRunning={isRunning} openSettings={openSettings} toggleHelp={toggleHelp} toggleSound={toggleSound} isSound={isSound} />
     <Banner 
         message={gameStatus === "win" ? "🏆 You Win! 🏆" : gameStatus === "lose" ? "💀 Game Over 💀" : ""} 
         visible={bannerVisible} 

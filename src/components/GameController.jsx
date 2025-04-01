@@ -7,7 +7,7 @@ import explosion from "../sound/explosion.mp3"
 import flag from "../sound/flag.mp3"
 
 import { useEffect, useState} from "react";
-const GameController = ({gridSize, useChance, bombPercentage, bombCount, gameStatus, statusCallback, isRunning, timerStartPause, openSettings, toggleHelp}) => {
+const GameController = ({gridSize, useChance, bombPercentage, bombCount, gameStatus, statusCallback, isRunning, timerStartPause, openSettings, toggleHelp, toggleSound, isSound}) => {
     const [board, setBoard] = useState(initializeBoard(gridSize, bombPercentage));
     const [currentCoords, setCurrentCoords] = useState([0,0])
     const [useHighlight, setUseHighlight] = useState(false)
@@ -130,7 +130,7 @@ const GameController = ({gridSize, useChance, bombPercentage, bombCount, gameSta
             timerStartPause()
             console.log("VICTORY")
             statusCallback("win")
-            audio.victory.play()
+            if(isSound)audio.victory.play()
         }
     }
 
@@ -154,10 +154,10 @@ const GameController = ({gridSize, useChance, bombPercentage, bombCount, gameSta
             newBoard[row][col].exploded = true
             setBoard(newBoard)
             statusCallback("lose")
-            audio.explosion.play()
+            if(isSound)audio.explosion.play()
         }else if(!board[row][col].revealed){
             reveal(row,col)
-            audio.dirt.play()
+            if(isSound)audio.dirt.play()
         }
     }
 
@@ -165,7 +165,7 @@ const GameController = ({gridSize, useChance, bombPercentage, bombCount, gameSta
         const newBoard = [...board]
         newBoard[row][col].flagged = !(newBoard[row][col].flagged)
         setBoard(newBoard)
-        audio.flag.play()
+        if(isSound)audio.flag.play()
     }
 
     const handleCellClick = (row, col) => {
@@ -245,6 +245,9 @@ const GameController = ({gridSize, useChance, bombPercentage, bombCount, gameSta
             case 'h':
                 toggleHelp()
                 break
+            case 'm':
+                toggleSound()
+                break;
             default:
               return
         }
