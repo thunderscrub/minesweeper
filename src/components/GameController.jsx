@@ -1,9 +1,11 @@
 import Board from "./Board";
+import KeyboardListenerController from "./KeyboardListenerController"
 
 import { useEffect, useState} from "react";
-const GameController = ({gridSize, useChance, bombPercentage, bombCount, gameStatus, statusCallback, isRunning, timerStartPause}) => {
+const GameController = ({gridSize, useChance, bombPercentage, bombCount, gameStatus, statusCallback, isRunning, timerStartPause, openSettings, toggleHelp}) => {
     const [board, setBoard] = useState(initializeBoard(gridSize, bombPercentage));
-
+    const [currentCoords, setCurrentCoords] = useState([0,0])
+    const [useHighlight, setUseHighlight] = useState(false)
     useEffect(()=>{
         setBoard(initializeBoard(gridSize, bombPercentage))
     },[gridSize, bombPercentage, useChance, bombCount])
@@ -19,13 +21,15 @@ const GameController = ({gridSize, useChance, bombPercentage, bombCount, gameSta
                         revealed: false,
                         adjacent: null,
                         flagged:false,
-                        exploded:false
+                        exploded:false,
+                        highlighted:false
                         } : {
                         hasBomb: false,
                         revealed: false,
                         adjacent: null,
                         flagged:false,
-                        exploded:false
+                        exploded:false,
+                        highlighted:false
                         })
                 }else{
                     initialBoard[row].push({
@@ -33,7 +37,8 @@ const GameController = ({gridSize, useChance, bombPercentage, bombCount, gameSta
                         revealed: false,
                         adjacent: null,
                         flagged:false,
-                        exploded:false
+                        exploded:false,
+                        highlighted:false
                         })
                     }
                 }
@@ -126,8 +131,7 @@ const GameController = ({gridSize, useChance, bombPercentage, bombCount, gameSta
         return true
     }
 
-    const handleCellClick = (row, col) => {
-        if(gameStatus=="lose"||gameStatus=="win")return
+    const handleCellOpen = (row, col) => {
         if(!isRunning) {
             timerStartPause()
         }
@@ -143,16 +147,98 @@ const GameController = ({gridSize, useChance, bombPercentage, bombCount, gameSta
         }
     }
 
-    const handleCellRightClick = (e, row, col) => {
-        e.preventDefault()
+    const handleCellFlag = (row, col) => {
         const newBoard = [...board]
         newBoard[row][col].flagged = !(newBoard[row][col].flagged)
         setBoard(newBoard)
     }
 
+    const handleCellClick = (row, col) => {
+        if(gameStatus=="lose"||gameStatus=="win")return
+        setUseHighlight(false)
+        handleCellOpen(row,col)
+    }
+
+    const handleCellRightClick = (e, row, col) => {
+        e.preventDefault()
+        handleCellFlag(row, col)
+    }
+
+    const handleKeyPress = (key) => {
+        switch(key) {
+            case 'r':
+              openSettings()
+              break
+            case 'ArrowUp':
+                setUseHighlight(true)
+                if(currentCoords[0]>0){
+                    let newBoard = [...board]
+                    newBoard[currentCoords[0]][currentCoords[1]].highlighted=false
+                    let newCoords = [...currentCoords]
+                    newCoords[0] = newCoords[0] - 1
+                    setCurrentCoords(newCoords)
+                    newBoard[newCoords[0]][currentCoords[1]].highlighted=true
+                    setBoard(newBoard)
+                }
+                break
+            case 'ArrowLeft':
+                setUseHighlight(true)
+                if(currentCoords[1]>0){
+                    let newBoard = [...board]
+                    newBoard[currentCoords[0]][currentCoords[1]].highlighted=false
+                    let newCoords = [...currentCoords]
+                    newCoords[1] = newCoords[1] - 1
+                    setCurrentCoords(newCoords)
+                    newBoard[currentCoords[0]][newCoords[1]].highlighted=true
+                    setBoard(newBoard)
+                }
+                break
+            case 'ArrowDown':
+                setUseHighlight(true)
+                if(currentCoords[0]<gridSize-1){
+                    let newBoard = [...board]
+                    newBoard[currentCoords[0]][currentCoords[1]].highlighted=false
+                    let newCoords = [...currentCoords]
+                    newCoords[0] = newCoords[0] + 1
+                    setCurrentCoords(newCoords)
+                    newBoard[newCoords[0]][currentCoords[1]].highlighted=true
+                    setBoard(newBoard)
+                }
+                break
+            case 'ArrowRight':
+                setUseHighlight(true)
+                if(currentCoords[1]<gridSize-1){
+                    let newBoard = [...board]
+                    newBoard[currentCoords[0]][currentCoords[1]].highlighted=false
+                    let newCoords = [...currentCoords]
+                    newCoords[1] = newCoords[1] + 1
+                    setCurrentCoords(newCoords)
+                    newBoard[currentCoords[0]][newCoords[1]].highlighted=true
+                    setBoard(newBoard)
+                }
+                break
+            case ' ':
+                if(useHighlight){
+                    handleCellFlag(...currentCoords)
+                }
+              break
+            case 'Enter':
+                if(useHighlight){
+                    handleCellOpen(...currentCoords)
+                }
+                break
+            case 'h':
+                toggleHelp()
+                break
+            default:
+              return
+        }
+    }
+
     return(
         <>
-            <Board board={board} onCellClick={handleCellClick} onContextMenu={handleCellRightClick} status={gameStatus}/>
+            <Board board={board} onCellClick={handleCellClick} onContextMenu={handleCellRightClick} status={gameStatus} useHighlight={useHighlight}/>
+            <KeyboardListenerController handleKeyPress={(key)=>handleKeyPress(key)}/>
         </>
     )
 }

@@ -22,12 +22,12 @@ const Banner = ({ message, visible, onClose }) => {
             "alignItems": "center",
             "zIndex": "1000",
             "fontSize":"60px",
-            "color":"red",
-            "-webkit-text-stroke-width": "2px",
-            "-webkit-text-stroke-color": "black"}}>
+            "color":"greem",
+            "WebkitTextStrokeWidth": "2px",
+            " WebkitTextStrokeColor": "black"}}>
             <motion.div
                 initial={{ opacity: 0, y: 0 }}
-                animate={{ opacity: 1, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 100 }}
                 transition={{ duration: 0.5 }}
             >

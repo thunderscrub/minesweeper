@@ -4,8 +4,12 @@ function Settings({resultCallback}) {
       const testForm = {
         inputs: [
           {
+            type: "info",
+            text: "Configure the minesweeper game. Default values and additional info are in braces."
+          },
+          {
             type: "text",
-            label: "Player name",
+            label: "Player name (Player)",
             id: "PlayerName"
           },
           {
@@ -32,11 +36,8 @@ function Settings({resultCallback}) {
           },
           {
             type: "number",
-            label: "Bomb count",
+            label: "Bomb count (10)",
             id: "BombCount",
-            options: [
-              10, 20, 30
-            ],
             conditional: {"ChanceOrCount":false}//WIP
           }
         ]
@@ -73,7 +74,7 @@ function Settings({resultCallback}) {
             "borderRadius": "10px",
             "textAlign": "center",
             "boxShadow": "0px 4px 10px rgba(0, 0, 0, 0.2)",
-            "width": "300px"}}>
+            "width": "400px"}}>
               <Form form={testForm} submitCallback={submitCallback}/>
           </div>
         </div>

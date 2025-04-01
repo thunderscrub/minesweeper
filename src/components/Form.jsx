@@ -18,6 +18,8 @@ function Form({form, submitCallback}) {
                 return <DropdownInput key={input.id+"-"+i} input={input}/>
             case 'checkbox':
                 return <CheckboxInput key={input.id+"-"+i} input={input}/>
+            case 'info':
+                return <p>{input.text}</p>
             default:
                 console.error("Invalid input object")
                 return
@@ -25,7 +27,7 @@ function Form({form, submitCallback}) {
     }
 
     return(
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={{ textAlign: "left" }}>
             {form.inputs.map((input, i) => renderInput(input, i))}
             <button type="submit">Confirm</button>
         </form>

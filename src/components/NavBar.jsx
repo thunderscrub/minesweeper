@@ -1,9 +1,12 @@
 
 
-const NavBar = ({showSettings}) => {
+const NavBar = ({showSettings, showHelp}) => {
 
     return(
-        <ul style={{"list-style-type": "none",
+        <div style={{
+            "zIndex": "1002",
+            "position": "relative"}}>
+        <ul style={{"listStyleType": "none",
             "margin": "0",
             "padding": "0",
             "overflow": "hidden"}}>
@@ -11,11 +14,12 @@ const NavBar = ({showSettings}) => {
             "fontSize":"35px",
             "cursor":"pointer",
             "userSelect": "none"}} onClick={()=>{showSettings()}}>🔄</li>
-            {/*<li style={{"float": "left",
+            {<li style={{"float": "left",
                 "fontSize":"35px",
                 "cursor":"pointer",
-                "userSelect": "none"}} onClick={()=>{}}>⚙️</li>*/}        
+                "userSelect": "none"}} onClick={()=>{showHelp()}}>❓</li>}        
         </ul>
+        </div>
     )
 }
 export default NavBar
