@@ -1,11 +1,22 @@
 import Board from "./Board";
 import KeyboardListenerController from "./KeyboardListenerController"
 
+import victory from "../sound/victory.mp3"
+import dirt from "../sound/dirt.mp3"
+import explosion from "../sound/explosion.mp3"
+import flag from "../sound/flag.mp3"
+
 import { useEffect, useState} from "react";
 const GameController = ({gridSize, useChance, bombPercentage, bombCount, gameStatus, statusCallback, isRunning, timerStartPause, openSettings, toggleHelp}) => {
     const [board, setBoard] = useState(initializeBoard(gridSize, bombPercentage));
     const [currentCoords, setCurrentCoords] = useState([0,0])
     const [useHighlight, setUseHighlight] = useState(false)
+    const [audio] = useState({
+        victory:new Audio(victory),
+        dirt:new Audio(dirt),
+        explosion:new Audio(explosion),
+        flag:new Audio(flag),
+    })
     useEffect(()=>{
         setBoard(initializeBoard(gridSize, bombPercentage))
     },[gridSize, bombPercentage, useChance, bombCount])
@@ -119,6 +130,7 @@ const GameController = ({gridSize, useChance, bombPercentage, bombCount, gameSta
             timerStartPause()
             console.log("VICTORY")
             statusCallback("win")
+            audio.victory.play()
         }
     }
 
@@ -142,8 +154,10 @@ const GameController = ({gridSize, useChance, bombPercentage, bombCount, gameSta
             newBoard[row][col].exploded = true
             setBoard(newBoard)
             statusCallback("lose")
+            audio.explosion.play()
         }else if(!board[row][col].revealed){
             reveal(row,col)
+            audio.dirt.play()
         }
     }
 
@@ -151,6 +165,7 @@ const GameController = ({gridSize, useChance, bombPercentage, bombCount, gameSta
         const newBoard = [...board]
         newBoard[row][col].flagged = !(newBoard[row][col].flagged)
         setBoard(newBoard)
+        audio.flag.play()
     }
 
     const handleCellClick = (row, col) => {
