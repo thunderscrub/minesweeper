@@ -75,6 +75,7 @@ function Settings({resultCallback}) {
             "textAlign": "center",
             "boxShadow": "0px 4px 10px rgba(0, 0, 0, 0.2)",
             "width": "400px"}}>
+              <h2>Settings</h2>
               <Form form={testForm} submitCallback={submitCallback}/>
           </div>
         </div>
